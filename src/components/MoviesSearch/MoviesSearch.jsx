@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 
 import css from './MovieSearch.module.css';
 import { searchMovies } from '../../API/searchMovies';
 import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
 
-export const MoviesSearch = () => {
+const MoviesSearch = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
 
@@ -47,28 +47,32 @@ export const MoviesSearch = () => {
 
   return (
     <>
-      <div className="row">
-        <DebounceInput
-          minLength={1}
-          debounceTimeout={500}
-          autoFocus
-          type="text"
-          value={query}
-          onChange={handleChange}
-        />
-      </div>
-      <ul className="row">
-        {movies.map(movie => (
-          <li key={movie.id} className={css.DebounceInput}>
-            <NavLink
-              to={`/movies/${movie.id}`}
-              state={{ from: `/movies?query=${searchQuery}` }}
-            >
-              {movie.title || movie.name}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
+      <Suspense fallback={<div>Loading...</div>}>
+        <div className="row">
+          <DebounceInput
+            minLength={1}
+            debounceTimeout={500}
+            autoFocus
+            type="text"
+            value={query}
+            onChange={handleChange}
+          />
+        </div>
+        <ul className="row">
+          {movies.map(movie => (
+            <li key={movie.id} className={css.DebounceInput}>
+              <NavLink
+                to={`/movies/${movie.id}`}
+                state={{ from: `/movies?query=${searchQuery}` }}
+              >
+                {movie.title || movie.name}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </Suspense>
     </>
   );
 };
+
+export default MoviesSearch;

@@ -1,9 +1,14 @@
+import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
-export const MoviesLayout = () => {
+const MoviesLayout = () => {
   return (
     <div>
-      <Outlet />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };
+
+export default MoviesLayout;

@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { getTrending } from 'API/getTrending';
 import { NavLink } from 'react-router-dom';
 
-export const Home = () => {
+const Home = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -18,15 +18,19 @@ export const Home = () => {
   return (
     <>
       <h1>Home</h1>
-      <ul>
-        {movies.map(movie => (
-          <li key={movie.id}>
-            <NavLink to={`/movies/${movie.id}`} state={{ from: '/' }}>
-              {movie.title || movie.name}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ul>
+          {movies.map(movie => (
+            <li key={movie.id}>
+              <NavLink to={`/movies/${movie.id}`} state={{ from: '/' }}>
+                {movie.title || movie.name}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </Suspense>
     </>
   );
 };
+
+export default Home;
