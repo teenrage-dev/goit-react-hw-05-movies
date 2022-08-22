@@ -9,7 +9,6 @@ const MoviesReviews = () => {
   const { moviesId } = useParams();
 
   useEffect(() => {
-    console.log(moviesId);
     async function fetchData() {
       try {
         const data = await getMovieReviews(Number(moviesId));
@@ -21,7 +20,6 @@ const MoviesReviews = () => {
     fetchData();
   }, [moviesId]);
 
-  console.log(reviews);
   return (
     <div>
       <h1>Movies Reviews</h1>

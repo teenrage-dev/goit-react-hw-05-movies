@@ -13,6 +13,7 @@ const MoviesDetails = () => {
 
   const location = useLocation();
   const backToLink = location.state?.from ?? '/';
+  console.log(`${Date.now()}`, location);
 
   useEffect(() => {
     async function fetchData() {
@@ -38,7 +39,6 @@ const MoviesDetails = () => {
         {movie && (
           <div>
             <h1>MoviesDetails {moviesId}</h1>
-            {console.log(location)}
             <NavLink to={`${backToLink}`}>Go back</NavLink>
             <div className={css.MoviesDetails}>
               <div>
@@ -67,8 +67,12 @@ const MoviesDetails = () => {
               </div>
             </div>
             <div className={css.LinkesBox}>
-              <NavLink to={'cast'}>Cast</NavLink>
-              <NavLink to={'reviews'}>Reviews</NavLink>
+              <NavLink to={'cast'} state={{ from: location.state.from }}>
+                Cast
+              </NavLink>
+              <NavLink to={'reviews'} state={{ from: location.state.from }}>
+                Reviews
+              </NavLink>
             </div>
           </div>
         )}

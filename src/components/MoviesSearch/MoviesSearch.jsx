@@ -3,23 +3,20 @@ import { DebounceInput } from 'react-debounce-input';
 
 import css from './MovieSearch.module.css';
 import { searchMovies } from '../../API/searchMovies';
-import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
+import { NavLink, useSearchParams } from 'react-router-dom';
 
 const MoviesSearch = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
 
-  const location = useLocation();
+  // const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams({
     query: '',
   });
 
   const searchQuery = searchParams.get('query');
-  console.log(searchParams);
-  console.log(location);
 
   useEffect(() => {
-    console.log(searchQuery);
     if (searchQuery === '') {
       return;
     }
@@ -28,10 +25,7 @@ const MoviesSearch = () => {
       try {
         const { results } = await searchMovies(searchQuery);
         setMovies(results);
-        console.log(results);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     fetchByQuery();
   }, [searchQuery]);
@@ -42,7 +36,6 @@ const MoviesSearch = () => {
     setQuery(value);
 
     setSearchParams({ query: value });
-    console.log(query, value);
   };
 
   return (
