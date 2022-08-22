@@ -4,7 +4,7 @@
 // import { getTrending } from 'API/getTrending';
 // import { searchMovies } from 'API/searchMovies';
 // import { useEffect, useMemo, useState } from 'react';
-// import { DebounceInput } from 'react-debounce-input';
+
 import { Routes, Route } from 'react-router-dom';
 import { Home } from './Home/Home';
 // import { imageBaseUrl } from '../API/api';
@@ -14,6 +14,7 @@ import { MoviesSearch } from './MoviesSearch/MoviesSearch';
 import { MoviesDetails } from './MoviesDetails/MoviesDetails';
 import { MoviesCast } from './MoviesCast/MoviesCast';
 import { MoviesReviews } from './MoviesReviews/MoviesReviews';
+import { MoviesLayout } from './MoviesLayout/MoviesLayout';
 
 export const App = () => {
   // const [movies, setMovies] = useState([]);
@@ -77,8 +78,8 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Home />}></Route>
-          <Route path="movies" element={<MoviesSearch />}>
-            <Route index element={<Movies />} />
+          <Route path="movies" element={<MoviesLayout />}>
+            <Route index element={<MoviesSearch />} />
             <Route path=":moviesId" element={<MoviesDetails />}>
               <Route path="cast" element={<MoviesCast />} />
               <Route path="reviews" element={<MoviesReviews />} />

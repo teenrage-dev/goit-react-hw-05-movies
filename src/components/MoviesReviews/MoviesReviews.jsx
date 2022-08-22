@@ -30,8 +30,8 @@ export const MoviesReviews = () => {
           reviews.map(review => {
             return (
               <li key={review.id}>
-                <h2>Author:{review.author}</h2>
-                <p>{review.content}</p>
+                <h2 className={css.ReviewsTitle}>Author: {review.author}</h2>
+                <p className={css.ReviewsText}>{review.content}</p>
               </li>
             );
           })

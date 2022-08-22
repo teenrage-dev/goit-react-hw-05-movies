@@ -1,10 +1,25 @@
 import { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { DebounceInput } from 'react-debounce-input';
+
+import css from './MovieSearch.module.css';
 import { searchMovies } from '../../API/searchMovies';
+import {
+  NavLink,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom';
 
 export const MoviesSearch = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  console.log(searchParams);
+  console.log(location);
 
   useEffect(() => {
     if (query === '') {
@@ -22,39 +37,40 @@ export const MoviesSearch = () => {
     }
     fetchByQuery();
   }, [query]);
+
+  const handleChange = e => {
+    const value = e.target.value.toLocaleLowerCase();
+
+    setQuery(value);
+
+    setSearchParams(value);
+    console.log(query, value);
+  };
+
   return (
     <>
-      <Outlet />
       <div className="row">
-        <div className="col-md-12">
-          <div className="input-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search for..."
-              aria-label="Search for..."
-              aria-describedby="basic-addon2"
-              onChange={e => setQuery(e.target.value)}
-            />
-            <div className="input-group-append">
-              <button
-                className="btn btn-outline-secondary"
-                type="button"
-                onClick={() => setQuery('')}
-              >
-                Clear
-              </button>
-            </div>
-          </div>
-        </div>
+        <DebounceInput
+          minLength={1}
+          debounceTimeout={500}
+          autoFocus
+          type="text"
+          value={query}
+          onChange={handleChange}
+        />
       </div>
-      <div className="row">
+      <ul className="row">
         {movies.map(movie => (
-          <div className="col-md-3" key={movie.id}>
-            {/* <Movie movie={movie} /> */}Movie
-          </div>
+          <li key={movie.id} className={css.DebounceInput}>
+            <NavLink
+              to={`/movies/${movie.id}`}
+              state={{ from: `/movies?query=${query}` }}
+            >
+              {movie.title || movie.name}
+            </NavLink>
+          </li>
         ))}
-      </div>
+      </ul>
     </>
   );
 };

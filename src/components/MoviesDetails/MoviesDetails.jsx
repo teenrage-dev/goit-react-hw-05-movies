@@ -2,7 +2,7 @@ import { getMovieDetails } from 'API/getMovieDetails';
 import { imageBaseUrl, imagePlaceholder } from '../../API/api';
 
 import { useEffect, useState } from 'react';
-import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
 
 import css from './MoviesDetails.module.css';
 
@@ -10,6 +10,9 @@ export const MoviesDetails = () => {
   const [error, setError] = useState(null);
   const { moviesId } = useParams();
   const [movie, setMovie] = useState(null);
+
+  const location = useLocation();
+  const backToLink = location.state?.from ?? '/';
 
   useEffect(() => {
     async function fetchData() {
@@ -28,14 +31,14 @@ export const MoviesDetails = () => {
     fetchData();
   }, [moviesId]);
 
-  // console.log(movie);
   return (
     <>
       {error && <h2>{error}</h2>}
       {movie && (
         <div>
           <h1>MoviesDetails {moviesId}</h1>
-          <NavLink to={'/'}>Go back</NavLink>
+          {console.log(location)}
+          <NavLink to={`${backToLink}`}>Go back</NavLink>
           <div className={css.MoviesDetails}>
             <div>
               <img

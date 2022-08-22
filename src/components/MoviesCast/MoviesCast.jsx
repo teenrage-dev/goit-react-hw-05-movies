@@ -27,18 +27,20 @@ export const MoviesCast = () => {
     <div className={css.MoviesCast}>
       {cast.length > 0 ? (
         <ul>
-          {cast.map(cast => {
+          {cast.map(({ id, profile_path, name, character }) => {
+            // console.log(cast);
             return (
-              <li key={cast.id}>
+              <li key={id}>
                 <img
                   src={
-                    cast.profile_path
-                      ? `${imageBaseUrlSmall}${cast.profile_path}`
+                    profile_path
+                      ? `${imageBaseUrlSmall}${profile_path}`
                       : imagePlaceholderSmall
                   }
-                  alt={cast.name}
+                  alt={name}
                 />
-                <p>{cast.name}</p>
+                <p>{name}</p>
+                <p>{character}</p>
               </li>
             );
           })}
