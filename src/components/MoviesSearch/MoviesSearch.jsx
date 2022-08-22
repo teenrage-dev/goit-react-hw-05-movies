@@ -3,32 +3,30 @@ import { DebounceInput } from 'react-debounce-input';
 
 import css from './MovieSearch.module.css';
 import { searchMovies } from '../../API/searchMovies';
-import {
-  NavLink,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from 'react-router-dom';
+import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
 
 export const MoviesSearch = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
 
-  const navigate = useNavigate();
   const location = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams({
+    query: '',
+  });
 
+  const searchQuery = searchParams.get('query');
   console.log(searchParams);
   console.log(location);
 
   useEffect(() => {
-    if (query === '') {
+    console.log(searchQuery);
+    if (searchQuery === '') {
       return;
     }
 
     async function fetchByQuery() {
       try {
-        const { results } = await searchMovies(query);
+        const { results } = await searchMovies(searchQuery);
         setMovies(results);
         console.log(results);
       } catch (error) {
@@ -36,14 +34,14 @@ export const MoviesSearch = () => {
       }
     }
     fetchByQuery();
-  }, [query]);
+  }, [searchQuery]);
 
   const handleChange = e => {
     const value = e.target.value.toLocaleLowerCase();
 
     setQuery(value);
 
-    setSearchParams(value);
+    setSearchParams({ query: value });
     console.log(query, value);
   };
 
@@ -64,7 +62,7 @@ export const MoviesSearch = () => {
           <li key={movie.id} className={css.DebounceInput}>
             <NavLink
               to={`/movies/${movie.id}`}
-              state={{ from: `/movies?query=${query}` }}
+              state={{ from: `/movies?query=${searchQuery}` }}
             >
               {movie.title || movie.name}
             </NavLink>
