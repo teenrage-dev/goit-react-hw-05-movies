@@ -51,10 +51,3 @@ export const App = () => {
     </>
   );
 };
-
-//
-// / - Home
-// /movies - Movies
-//  - /movies/:movieId - Movie Details
-//    - /movies/:movieId/cast - Cast
-//    - /movies/:movieId/reviews - Reviews
