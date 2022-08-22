@@ -9,7 +9,6 @@ const MoviesSearch = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
 
-  // const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams({
     query: '',
   });
@@ -51,18 +50,22 @@ const MoviesSearch = () => {
             onChange={handleChange}
           />
         </div>
-        <ul className="row">
-          {movies.map(movie => (
-            <li key={movie.id} className={css.DebounceInput}>
-              <NavLink
-                to={`/movies/${movie.id}`}
-                state={{ from: `/movies?query=${searchQuery}` }}
-              >
-                {movie.title || movie.name}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+        {movies ? (
+          <ul className="row">
+            {movies?.map(movie => (
+              <li key={movie.id} className={css.DebounceInput}>
+                <NavLink
+                  to={`/movies/${movie.id}`}
+                  state={{ from: `/movies?query=${searchQuery}` }}
+                >
+                  {movie.title || movie.name}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div>No Such Movies</div>
+        )}
       </Suspense>
     </>
   );

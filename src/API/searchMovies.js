@@ -5,6 +5,5 @@ export const searchMovies = async query => {
     `${baseUrl}search/movie?api_key=${apiKey}&query=${query}&language=en-US&page=1`
   );
   const data = await res.json();
-  console.log(data);
   return data;
 };

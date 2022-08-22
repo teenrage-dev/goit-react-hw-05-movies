@@ -13,7 +13,6 @@ const MoviesDetails = () => {
 
   const location = useLocation();
   const backToLink = location.state?.from ?? '/';
-  console.log(`${Date.now()}`, location);
 
   useEffect(() => {
     async function fetchData() {
@@ -25,7 +24,6 @@ const MoviesDetails = () => {
           setMovie(null);
         }
       } catch (error) {
-        console.log(error);
         setError(error);
       }
     }

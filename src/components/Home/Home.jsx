@@ -9,7 +9,6 @@ const Home = () => {
     async function fetchData() {
       const data = await getTrending();
       setMovies(data.results);
-      console.log(data);
     }
 
     fetchData();

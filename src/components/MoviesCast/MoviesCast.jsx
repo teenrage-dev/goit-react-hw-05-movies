@@ -11,7 +11,6 @@ const MoviesCast = () => {
   const params = useParams();
 
   useEffect(() => {
-    console.log(params);
     async function fetchData() {
       try {
         const data = await getMovieCredits(params.moviesId);
@@ -29,7 +28,6 @@ const MoviesCast = () => {
         {cast.length > 0 ? (
           <ul>
             {cast.map(({ id, profile_path, name, character }) => {
-              // console.log(cast);
               return (
                 <li key={id}>
                   <img
